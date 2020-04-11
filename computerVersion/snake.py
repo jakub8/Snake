@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import messagebox
 from pygame.locals import *
 
-global rows, width, snake, snack, canMoveTime, keyPresses
+global rows, width, snake, snack, start
 canMoveTime = 0
 
 
@@ -45,21 +45,22 @@ class Snake(object):
         self.dirny = 0
 
     def check_dead(self):
+        global start
         c = self.body[0]
         if c.pos[0] > rows - 1 or c.pos[1] > rows - 1 or c.pos[0] < 0 or c.pos[1] < 0:
             score = "Score: " + str(len(snake.body) - 1)
             message_box('You lost!', score)
             snake.reset((10, 10))
+            start = False
         if c.pos in list(map(lambda z: z.pos, self.body[1:])):
             score = "Score: " + str(len(snake.body) - 1)
             message_box('You lost!', score)
             snake.reset((10, 10))
+            start = False
 
-    def move(self):
+    def move(self, k):
 
-        key = 'none'
-        if len(keyPresses) > 0:
-            key = keyPresses[-1]
+        key = k
 
         if key == 'right' and self.dirnx == 0:
             self.dirnx = 1
@@ -188,48 +189,43 @@ def message_box(subject, content):
 
 
 def main():
-    global rows, width, snake, snack, canMoveTime, keyPresses
+    global rows, width, snake, snack, start
     width = 500
     rows = 20
     snake = Snake((0, 255, 0), (10, 10))
     win = pygame.display.set_mode((width, width))
     snack = Cube(random_snack(rows, snake))
-    keyPresses = []
+    start = False
 
     clock = pygame.time.Clock()
 
     while True:
-        clock.tick(60)
-        canMoveTime += 1
-
-        right = pygame.key.get_pressed()[pygame.K_RIGHT]
-        left = pygame.key.get_pressed()[pygame.K_LEFT]
-        up = pygame.key.get_pressed()[pygame.K_UP]
-        down = pygame.key.get_pressed()[pygame.K_DOWN]
-
-        if right:
-            keyPresses.append('right')
-        if left:
-            keyPresses.append('left')
-        if up:
-            keyPresses.append('up')
-        if down:
-            keyPresses.append('down')
+        clock.tick(10)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
 
-        if canMoveTime == 6:
-            snake.move()
-            if snake.body[0].pos == snack.pos:
-                snake.add_cube()
-                snack = Cube(random_snack(rows, snake))
-            snake.check_dead()
-            redraw_window(win)
+        start = pygame.key.get_pressed()[pygame.K_SPACE]
 
-            canMoveTime = 0
-            keyPresses = []
+        switcher = {
+            0: "right",
+            1: "left",
+            2: "up",
+            3: "down"
+        }
+
+        output = switcher.get(random.randint(0, 3))
+
+        if start:
+            print(output)
+            snake.move(output)
+
+        if snake.body[0].pos == snack.pos:
+            snake.add_cube()
+            snack = Cube(random_snack(rows, snake))
+        snake.check_dead()
+        redraw_window(win)
 
 
 if __name__ == '__main__':
