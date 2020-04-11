@@ -6,16 +6,15 @@ from tkinter import messagebox
 from pygame.locals import *
 
 global rows, width, snake, snack, canMoveTime, keyPresses
-canMoveTime = 0
 
 
 class Cube(object):
 
-    def __init__(self, start, dirnx=0, dirny=0, color=(0, 255, 0)):
+    def __init__(self, start, dirnx=0, dirny=0, c=(0, 255, 0)):
         self.pos = start
         self.dirnx = dirnx
         self.dirny = dirny
-        self.color = color
+        self.color = c
 
     def move(self, dirnx, dirny):
         self.dirnx = dirnx
@@ -194,6 +193,7 @@ def main():
     snake = Snake((0, 255, 0), (10, 10))
     win = pygame.display.set_mode((width, width))
     snack = Cube(random_snack(rows, snake))
+    canMoveTime = 0
     keyPresses = []
 
     clock = pygame.time.Clock()
