@@ -231,6 +231,5 @@ def main():
             canMoveTime = 0
             keyPresses = []
 
-
 if __name__ == '__main__':
     main()
