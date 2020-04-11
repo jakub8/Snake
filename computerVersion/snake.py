@@ -88,27 +88,6 @@ class Snake(object):
                     self.turns.pop(p)
             else:
                 c.move(c.dirnx, c.dirny)
-                # if c.dirnx == -1 and c.pos[0] <= 0:
-                #     c.pos = (rows - 1, c.pos[1])
-                # elif c.dirnx == 1 and c.pos[0] >= rows - 1:
-                #     c.pos = (0, c.pos[1])
-                # elif c.dirny == -1 and c.pos[1] <= 0:
-                #     c.pos = (c.pos[0], rows - 1)
-                # elif c.dirny == 1 and c.pos[1] >= rows - 1:
-                #     c.pos = (c.pos[0], 0)
-                # else:
-
-            # else:
-            #     if c.dirnx == -1 and c.pos[0] <= 1:
-            #         c.pos = (rows - 2, c.pos[1])
-            #     elif c.dirnx == 1 and c.pos[0] >= rows - 2:
-            #         c.pos = (1, c.pos[1])
-            #     elif c.dirny == -1 and c.pos[1] <= 1:
-            #         c.pos = (c.pos[0], rows - 2)
-            #     elif c.dirny == 1 and c.pos[1] >= rows - 2:
-            #         c.pos = (c.pos[0], 1)
-            #     else:
-            #         c.move(c.dirnx, c.dirny)
 
     def reset(self, pos):
         self.head = Cube(pos)
